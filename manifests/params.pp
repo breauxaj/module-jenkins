@@ -10,8 +10,16 @@ class jenkins::params {
 
   case $::osfamily {
     'RedHat': {
-      $jenkins_package = 'jenkins'
-      $jenkins_service = 'jenkins'
+      case $::operatingsystem {
+        default: {
+          case $::operatingsystemmajrelease {
+            default: {
+              $jenkins_package = 'jenkins'
+              $jenkins_service = 'jenkins'
+            }
+          }
+        }
+      }
     }
     default: {
       fail("The ${module_name} module is not supported on an ${::osfamily} based system.")
